@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">TimeTable</string>
+
+    <string-array name="days">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+    </string-array>
+
+    <string-array name="timetable_type">
+        <item>Lecture</item>
+        <item>Practical</item>
+        <item>Seminar</item>
+    </string-array>
+</resources>

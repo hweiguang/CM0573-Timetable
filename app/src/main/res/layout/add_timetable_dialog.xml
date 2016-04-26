@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.weiguang.timetable.Activities.MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/module_code_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Module code"
+                android:inputType="textCapCharacters"
+                android:singleLine="true"/>
+
+            <EditText
+                android:id="@+id/day_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Day"
+                android:inputType="textCapWords"
+                android:singleLine="true"/>
+
+            <EditText
+                android:id="@+id/start_time_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Start time"
+                android:inputType="time"
+                android:singleLine="true"/>
+
+            <EditText
+                android:id="@+id/duration_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Duration"
+                android:inputType="number"
+                android:singleLine="true"/>
+
+
+            <EditText
+                android:id="@+id/type_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Type"
+                android:inputType="textCapWords"
+                android:singleLine="true"/>
+
+            <EditText
+                android:id="@+id/room_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Room"
+                android:inputType="textCapCharacters"
+                android:singleLine="true"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
