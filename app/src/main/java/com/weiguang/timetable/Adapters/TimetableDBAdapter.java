@@ -41,6 +41,7 @@ public class TimetableDBAdapter {
         this.dbHelper = new TimetableDBOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    //Open database
     public void open() throws SQLiteException {
         try {
             db = dbHelper.getWritableDatabase();
@@ -49,14 +50,15 @@ public class TimetableDBAdapter {
         }
     }
 
+    //Close database
     public void close() {
         dbHelper.close();
     }
 
-    //Database queries
+    //Get time table items from a particular day and return in a ArrayList form
     public ArrayList<TimetableItem> getDayTimetableItems(String selectedDay) {
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DATABASE_TABLE + " WHERE " + KEY_DAY + " =" +
-                " '" + selectedDay + "'" + " ORDER BY '" + KEY_START_TIME + " '", null);
+        Cursor cursor = db.query(DATABASE_TABLE, null, KEY_DAY + " = '" + selectedDay + "'",
+                null, null, null, KEY_START_TIME + " DESC", null);
 
         ArrayList<TimetableItem> timetableItemArrayList = new ArrayList<TimetableItem>();
 
@@ -96,6 +98,7 @@ public class TimetableDBAdapter {
                 timetableItemArrayList.add(timetableItem);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return timetableItemArrayList;
     }
 
@@ -120,22 +123,7 @@ public class TimetableDBAdapter {
         return db.delete(DATABASE_TABLE, KEY_ID + "=" + timetableItem.getIdentity(), null) > 0;
     }
 
-    // Update a timetable
-    public boolean updateTimetable(TimetableItem timetableItem) {
-        ContentValues newValue = new ContentValues();
-
-        newValue.put(KEY_MODULE_CODE, timetableItem.getModuleCode());
-        newValue.put(KEY_DAY, timetableItem.getDay());
-        newValue.put(KEY_START_TIME, timetableItem.getStartTime());
-        newValue.put(KEY_DURATION, timetableItem.getDuration());
-        newValue.put(KEY_TYPE, timetableItem.getType());
-        newValue.put(KEY_ROOM, timetableItem.getRoom());
-
-        return db.update(DATABASE_TABLE, newValue, KEY_ID + "=" + timetableItem.getIdentity(),
-                null) > 0;
-    }
-
-
+    //Helper class to manage the database
     private static class TimetableDBOpenHelper extends SQLiteOpenHelper {
         private static final String DATABASE_CREATE =
                 "CREATE TABLE " + DATABASE_TABLE + " (" +

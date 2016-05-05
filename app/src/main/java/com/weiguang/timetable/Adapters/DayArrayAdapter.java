@@ -40,8 +40,8 @@ public class DayArrayAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getView(int index, View convertView, ViewGroup parent) {
+        //Setting up the view to display individual day
         final String day = getItem(index);
-
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context
                 .LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.list_day_row, parent, false);

@@ -3,12 +3,12 @@ package com.weiguang.timetable.Activities;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.weiguang.timetable.Adapters.TimetableDBAdapter;
+import com.weiguang.timetable.Fragments.DeleteTimetableDialog;
 import com.weiguang.timetable.Fragments.DetailFragment;
-import com.weiguang.timetable.Fragments.TimetableDialog;
+import com.weiguang.timetable.Fragments.AddTimetableDialog;
 import com.weiguang.timetable.Models.TimetableItem;
 import com.weiguang.timetable.R;
 
@@ -16,10 +16,15 @@ import java.util.ArrayList;
 
 public class BaseActivity extends AppCompatActivity {
     private static final String TAG = BaseActivity.class.getName();
+    protected static final String SELECTED_DAY_TAG = "selectedDay";
 
+    //Database adapter for retrieving timetableItems
     private TimetableDBAdapter timetableDBAdapter;
+
+    //Variable to keep track of the day that is being selected
     private String selectedDay = "";
 
+    //Getter and setter for selectedDay
     public String getSelectedDay() {
         return selectedDay;
     }
@@ -31,7 +36,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //Initialising the database adapter
         timetableDBAdapter = new TimetableDBAdapter(this);
         timetableDBAdapter.open();
     }
@@ -39,9 +44,11 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //Close the database adapter
         timetableDBAdapter.close();
     }
 
+    //Function to get the detailFragment if available and update List
     public void updateDetailFragment() {
         DetailFragment detailFragment = (DetailFragment) getSupportFragmentManager()
                 .findFragmentById(R.id
@@ -51,6 +58,7 @@ public class BaseActivity extends AppCompatActivity {
         if (detailFragment == null)
             return;
 
+        //Get timetableItems with the selected day
         ArrayList<TimetableItem> timetableItemArrayList = timetableDBAdapter.getDayTimetableItems
                 (selectedDay);
 
@@ -69,27 +77,29 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void showTimetableDialog(TimetableItem timetableItem) {
-        TimetableDialog dialog = TimetableDialog.newInstance(timetableItem);
-        dialog.show(getSupportFragmentManager(), TimetableDialog.class.getName());
+    //Show dialog for user to fill in their timetable item
+    public void showAddTimetableDialog() {
+        AddTimetableDialog dialog = AddTimetableDialog.newInstance();
+        dialog.show(getSupportFragmentManager(), AddTimetableDialog.class.getName());
     }
 
-    //Database methods
+    //Show comfirmation dialog to delete timetable item
+    public void showDeleteTimetableDialog(TimetableItem timetableItem) {
+        DeleteTimetableDialog dialog = DeleteTimetableDialog.newInstance(timetableItem);
+        dialog.show(getSupportFragmentManager(), DeleteTimetableDialog.class.getName());
+    }
+
+    //Add timetable item to database
     public void onAddTimetableItem(TimetableItem timetableItem) {
         timetableDBAdapter.insertTimetable(timetableItem);
-        Toast.makeText(this, "Added successfully", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.add_successful, Toast.LENGTH_LONG).show();
         updateDetailFragment();
     }
 
+    //Remove timetable item from database
     public void onDeleteTimetableItem(TimetableItem timetableItem) {
         timetableDBAdapter.removeTimetable(timetableItem);
-        Toast.makeText(this, "Item deleted successfully", Toast.LENGTH_LONG).show();
-        updateDetailFragment();
-    }
-
-    public void onEditTimetableItem(TimetableItem timetableItem) {
-        timetableDBAdapter.updateTimetable(timetableItem);
-        Toast.makeText(this, "Item edited successfully", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.delete_successful, Toast.LENGTH_LONG).show();
         updateDetailFragment();
     }
 }

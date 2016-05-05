@@ -1,12 +1,9 @@
 package com.weiguang.timetable.Fragments;
 
 
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -19,13 +16,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.weiguang.timetable.Activities.BaseActivity;
-import com.weiguang.timetable.Activities.DetailActivity;
-import com.weiguang.timetable.Activities.MainActivity;
 import com.weiguang.timetable.Adapters.TimetableItemAdapter;
 import com.weiguang.timetable.Models.TimetableItem;
 import com.weiguang.timetable.R;
 
-import java.sql.Time;
 import java.util.ArrayList;
 
 
@@ -47,86 +41,59 @@ public class DetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        // Inflate the layout for this fragment
+        //Setting up the list view
         listView = (ListView) view.findViewById(R.id.detail_list_view);
         timetableItemArrayAdapter = new TimetableItemAdapter(getActivity(), timetableItemArrayList);
         listView.setAdapter(timetableItemArrayAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //Get the selected item and show confirmation to delete item
+                TimetableItem timetableItem = timetableItemArrayList.get(i);
+                BaseActivity baseActivity = (BaseActivity) getActivity();
+                baseActivity.showDeleteTimetableDialog(timetableItem);
+            }
+        });
         noLessonTextView = (TextView) view.findViewById(R.id.no_lessons_text_view);
-
-        registerForContextMenu(listView);
-
         return view;
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo
-            menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-        MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.detail_activity, menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
-                .getMenuInfo();
-        TimetableItem selectedItem = timetableItemArrayList.get((int) info.id);
-
-        switch (item.getItemId()) {
-            case R.id.edit_item:
-                onEditItem(selectedItem);
-                return true;
-            case R.id.delete_item:
-                onDeleteItem(selectedItem);
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
     }
 
     public void updateData(ArrayList<TimetableItem> timetableItemArrayList, String
             selectedDay) {
+        //Clear existing items in the ArrayList
         this.timetableItemArrayList.clear();
 
+        //Add the items from the ArrayList that is passed in
+        //This has to be done because notifyDataSetChanged() will only works if there is items
+        // being added and removed
+        //Setting the ArrayList directly with the ArrayList that is passed in does not work
         for (TimetableItem timetableItem : timetableItemArrayList) {
             this.timetableItemArrayList.add(timetableItem);
         }
         timetableItemArrayAdapter.notifyDataSetChanged();
 
-        if (selectedDay == null || selectedDay == "") {
-            noLessonTextView.setText("Please select a day on the left");
+        //Display message to user to select a day if the user has not selected one yet in
+        // landscape mode
+        if (selectedDay == null || selectedDay.equals("")) {
+            noLessonTextView.setText(R.string.please_select_day);
         } else {
+            //Show a text view that says there is no lesson if there is no item to show
             if (timetableItemArrayList.size() == 0) {
-                noLessonTextView.setText("You have no lessons on " + selectedDay.toLowerCase());
+                noLessonTextView.setText(String.format("%s %s", getString(R.string
+                                .you_have_no_lesson),
+                        selectedDay.toLowerCase()));
                 noLessonTextView.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.INVISIBLE);
             } else {
+                //Else show the items
                 listView.setVisibility(View.VISIBLE);
                 noLessonTextView.setVisibility(View.INVISIBLE);
             }
-            updateTitle(selectedDay);
+            //Set the title to the day that is selected
+            getActivity().setTitle(selectedDay);
         }
-    }
-
-    private void updateTitle(String newtitle) {
-        int orientation = getResources().getConfiguration().orientation;
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            getActivity().setTitle(newtitle);
-        } else {
-            getActivity().setTitle(getResources().getString(R.string.app_name));
-        }
-    }
-
-    private void onEditItem(TimetableItem timetableItem) {
-        BaseActivity baseActivity = (BaseActivity) getActivity();
-        baseActivity.showTimetableDialog(timetableItem);
-    }
-
-    private void onDeleteItem(TimetableItem timetableItem) {
-        BaseActivity baseActivity = (BaseActivity) getActivity();
-        baseActivity.onDeleteTimetableItem(timetableItem);
     }
 }

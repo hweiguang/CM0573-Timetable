@@ -2,18 +2,11 @@ package com.weiguang.timetable.Activities;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.weiguang.timetable.Fragments.TimetableDialog;
-import com.weiguang.timetable.Fragments.DetailFragment;
-import com.weiguang.timetable.Fragments.ListFragment;
 import com.weiguang.timetable.R;
-import com.weiguang.timetable.Models.TimetableItem;
-
-import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = MainActivity.class.getName();
@@ -28,14 +21,16 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("selectedDay", getSelectedDay());
+        //Save the selected day to be use when returning to this activity
+        outState.putString(SELECTED_DAY_TAG, getSelectedDay());
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        String selectedDay = savedInstanceState.getString("selectedDay");
+        //Restore the previously selected day
+        String selectedDay = savedInstanceState.getString(SELECTED_DAY_TAG);
         setSelectedDay(selectedDay);
 
         int orientation = getResources().getConfiguration().orientation;
@@ -47,6 +42,7 @@ public class MainActivity extends BaseActivity {
     //Menu options
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        //Inflate the menu for adding timetable item
         getMenuInflater().inflate(R.menu.main_activity, menu);
         return true;
     }
@@ -54,18 +50,19 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            //Show add timetable dialog when the menu option add timetable is selected
             case R.id.add_timetable:
-                showTimetableDialog(null);
+                showAddTimetableDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    //Navigation
+    //Show detail activity if in portrait mode and pass the selected day to it
     public void showDetailActivity() {
         Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra("selectedDay", getSelectedDay());
+        intent.putExtra(SELECTED_DAY_TAG, getSelectedDay());
         startActivity(intent);
     }
 }

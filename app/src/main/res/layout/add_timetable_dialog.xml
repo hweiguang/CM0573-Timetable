@@ -16,14 +16,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <EditText
                 android:id="@+id/module_code_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Module code"
+                android:hint="Module code (2 letters, 3 digits)"
                 android:inputType="textCapCharacters"
                 android:singleLine="true"/>
 
@@ -31,7 +31,7 @@
                 android:id="@+id/day_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Day"
+                android:hint="Day (Monday...Friday)"
                 android:inputType="textCapWords"
                 android:singleLine="true"/>
 
@@ -39,8 +39,8 @@
                 android:id="@+id/start_time_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Start time"
-                android:inputType="time"
+                android:hint="Start time (9 to 17)"
+                android:inputType="number"
                 android:singleLine="true"/>
 
             <EditText
@@ -56,7 +56,7 @@
                 android:id="@+id/type_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Type"
+                android:hint="Type (Lecture, Practical or Seminar)"
                 android:inputType="textCapWords"
                 android:singleLine="true"/>
 
@@ -64,7 +64,7 @@
                 android:id="@+id/room_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Room"
+                android:hint="Room (Max 10 characters)"
                 android:inputType="textCapCharacters"
                 android:singleLine="true"/>
         </LinearLayout>

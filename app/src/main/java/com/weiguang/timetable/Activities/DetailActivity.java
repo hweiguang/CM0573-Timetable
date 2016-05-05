@@ -2,22 +2,9 @@ package com.weiguang.timetable.Activities;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteException;
-import android.nfc.Tag;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.weiguang.timetable.Adapters.TimetableDBAdapter;
-import com.weiguang.timetable.Fragments.DetailFragment;
-import com.weiguang.timetable.Fragments.TimetableDialog;
-import com.weiguang.timetable.Models.TimetableItem;
 import com.weiguang.timetable.R;
-
-import java.sql.Time;
-import java.util.ArrayList;
 
 public class DetailActivity extends BaseActivity {
     private static final String TAG = DetailActivity.class.getName();
@@ -27,10 +14,12 @@ public class DetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        //Get the selected day that is passed from MainActivity
         Intent intent = getIntent();
-        String selectedDay = intent.getStringExtra("selectedDay");
-
+        String selectedDay = intent.getStringExtra(SELECTED_DAY_TAG);
         setSelectedDay(selectedDay);
+
+        //Update the detailFragment List
         updateDetailFragment();
     }
 
@@ -38,6 +27,7 @@ public class DetailActivity extends BaseActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
+        //If user rotates to landscape close this activity
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             finish();
         }

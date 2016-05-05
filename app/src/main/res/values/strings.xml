@@ -14,4 +14,25 @@
         <item>Practical</item>
         <item>Seminar</item>
     </string-array>
+
+    <!-- Dialogs text -->
+    <string name="add_title_text">Add timetable item.</string>
+    <string name="delete_title_text">Delete timetable item?</string>
+    <string name="add_button_text">Add</string>
+    <string name="delete_button_text">Delete</string>
+    <string name="cancel_button_text">Cancel</string>
+
+    <!-- Toast messages -->
+    <string name="ensure_all_field_are_filled">Please ensure all fields are filled up.</string>
+    <string name="ensure_module_code_format">Please ensure the module code entered is in the correct format.</string>
+    <string name="please_enter_valid_day">Please enter a valid day.</string>
+    <string name="please_enter_valid_time">Please enter a number between 9 to 17 for start time.</string>
+    <string name="please_enter_valid_type">Please enter either Lecture, Practical or Seminar for type.</string>
+    <string name="please_enter_valid_room">Please enter a maximum of 10 characters for room.</string>
+    <string name="add_successful">Item added successfully</string>
+    <string name="delete_successful">Item deleted successfully</string>
+
+    <!-- Fragment text -->
+    <string name="please_select_day">Please select a day on the left</string>
+    <string name="you_have_no_lesson">You have no lessons on</string>
 </resources>

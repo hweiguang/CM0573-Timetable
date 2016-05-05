@@ -41,6 +41,7 @@ public class TimetableItemAdapter extends ArrayAdapter<TimetableItem> {
 
     @Override
     public View getView(int index, View convertView, ViewGroup parent) {
+        //Setting up the view to display individual timetable item
         final TimetableItem timetableItem = getItem(index);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context
@@ -48,19 +49,24 @@ public class TimetableItemAdapter extends ArrayAdapter<TimetableItem> {
         View rowView = inflater.inflate(R.layout.list_timetable_row, parent, false);
 
         TextView moduleTextView = (TextView) rowView.findViewById(R.id.module_code_text_view);
-        moduleTextView.setText(moduleTextView.getText() + timetableItem.getModuleCode());
+        moduleTextView.setText(String.format("%s%s", moduleTextView.getText(), timetableItem
+                .getModuleCode()));
 
         TextView startTimeTextView = (TextView) rowView.findViewById(R.id.start_time_text_view);
-        startTimeTextView.setText(startTimeTextView.getText() + timetableItem.getStartTime());
+        startTimeTextView.setText(String.format("%s%s", startTimeTextView.getText(),
+                timetableItem.getStartTime()));
 
         TextView durationTextView = (TextView) rowView.findViewById(R.id.duration_text_view);
-        durationTextView.setText(durationTextView.getText() + timetableItem.getDuration() + " hour");
+        durationTextView.setText(String.format("%s%s hour", durationTextView.getText(),
+                timetableItem.getDuration()));
 
         TextView typeTextView = (TextView) rowView.findViewById(R.id.type_text_view);
-        typeTextView.setText(typeTextView.getText() + timetableItem.getType());
+        typeTextView.setText(String.format("%s%s", typeTextView.getText(), timetableItem.getType
+                ()));
 
         TextView roomTextView = (TextView) rowView.findViewById(R.id.room_text_view);
-        roomTextView.setText(roomTextView.getText() + timetableItem.getRoom());
+        roomTextView.setText(String.format("%s%s", roomTextView.getText(), timetableItem.getRoom
+                ()));
 
         return rowView;
     }
