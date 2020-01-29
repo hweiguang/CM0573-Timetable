@@ -1,24 +1,20 @@
 package com.weiguang.timetable.Fragments;
 
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.weiguang.timetable.Activities.DetailActivity;
 import com.weiguang.timetable.Activities.MainActivity;
 import com.weiguang.timetable.Adapters.DayArrayAdapter;
 import com.weiguang.timetable.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
